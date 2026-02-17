@@ -1,0 +1,4 @@
+bin/
+/massmap
+.DS_Store
+paused.conf

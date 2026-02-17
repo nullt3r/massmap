@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        goos: [linux, darwin, windows]
+        goarch: [amd64]
+        include:
+          - goos: linux
+            goarch: 386
+          - goos: darwin
+            goarch: arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build and archive
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          go env
+          VERSION="${GITHUB_REF_NAME}"
+          mkdir -p bin
+
+          EXT=""
+          if [ "${GOOS}" = "windows" ]; then
+            EXT=".exe"
+          fi
+
+          go build \
+            -ldflags "-X github.com/nullt3r/massmap/cmd/massmap/main.Version=${VERSION}" \
+            -o "bin/massmap${EXT}" \
+            ./cmd/massmap
+
+          (cd bin && zip "massmap-${GOOS}-${GOARCH}.zip" "massmap${EXT}")
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: massmap-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: bin/massmap-${{ matrix.goos }}-${{ matrix.goarch }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/**/massmap-*.zip
