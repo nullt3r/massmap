@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        goos: [linux, darwin, windows]
+        goos: [linux, darwin]
         goarch: [amd64]
         include:
           - goos: linux
@@ -41,17 +41,12 @@ jobs:
           VERSION="${GITHUB_REF_NAME}"
           mkdir -p bin
 
-          EXT=""
-          if [ "${GOOS}" = "windows" ]; then
-            EXT=".exe"
-          fi
-
           go build \
             -ldflags "-X github.com/nullt3r/massmap/cmd/massmap/main.Version=${VERSION}" \
-            -o "bin/massmap${EXT}" \
+            -o "bin/massmap" \
             ./cmd/massmap
 
-          (cd bin && zip "massmap-${GOOS}-${GOARCH}.zip" "massmap${EXT}")
+          (cd bin && zip "massmap-${GOOS}-${GOARCH}.zip" "massmap")
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

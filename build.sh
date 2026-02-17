@@ -21,12 +21,7 @@ build() {
     GOOS=$1
     GOARCH=$2
     output_name="massmap"
-    
-    # Add .exe extension for Windows builds
-    if [ $GOOS = "windows" ]; then
-        output_name+=".exe"
-    fi
-    
+
     # Create final output name with version, os and arch
     final_name="bin/massmap-${VERSION}-${GOOS}-${GOARCH}-${output_name}"
     
