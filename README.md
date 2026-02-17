@@ -3,6 +3,14 @@
 
 Wraps masscan and nmap into a single workflow. Masscan finds open ports fast, nmap fingerprints them. Accepts domains, IPs, CIDRs, and IPv6. Resolves domains before scanning. Keeps a local port cache so repeated scans get smarter over time.
 
+Masscan is great at fast port discovery, but it has two big gaps in real workflows:
+- domain resolving (masscan wants IPs, not domains)
+- further service identification (open port != knowing what's actually running)
+
+Massmap solves both by resolving domains up front and automatically feeding discovered ports into nmap for service detection/fingerprinting.
+
+This makes it a good fit for bug bounty workflows and for mapping large networks.
+
 ## How it works
 
 1. Targets are loaded (domains resolved, scope validated, excludes applied)
