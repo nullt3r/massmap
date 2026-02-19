@@ -1,5 +1,4 @@
-![massmap terminal logo](./screenshots/massmap_logo.jpg)
-![](./screenshots/demo.png)
+![massmap logo](./screenshots/massmap_logo.jpg)
 # massmap
 
 Wraps masscan and nmap into a single workflow. Masscan finds open ports fast, nmap fingerprints them. Accepts domains, IPs, CIDRs, and IPv6. Resolves domains before scanning. Keeps a local port cache so repeated scans get smarter over time.
@@ -19,6 +18,7 @@ This makes it a good fit for bug bounty workflows and for mapping large networks
 3. Discovered ports are fed into concurrent nmap scans for service detection
 4. Results saved as JSON and/or `host:port` format
 
+![](./screenshots/demo.png)
 ## Port cache
 
 Massmap tracks which ports come up across scans. It's just a counter per port, nothing fancy. Over time this gives you a profile of your target environment. You can then scan only the top N most common ports from previous runs (`-pc N`), or all cached ports (`-pc 0`).
