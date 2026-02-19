@@ -112,3 +112,8 @@ Output:
 Other:
   -6                  enable IPv6 targets
 ```
+> ### Legal Disclaimer
+> This software is provided for educational and ethical testing purposes only. 
+> * **No Liability:** The author is not responsible for any misuse or damage caused by this program.
+> * **Personal Responsibility:** Users are 100% responsible for their own actions.
+> * **Consent Required:** Attacking targets without prior mutual consent is **illegal**. It is the end user's responsibility to obey all applicable local, state, and federal laws.
