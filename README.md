@@ -1,4 +1,4 @@
-![massmap terminal logo](./screenshots/massmap-logo.png)
+![massmap terminal logo](./screenshots/massmap-logo.jpg)
 ![](./screenshots/demo.png)
 # massmap
 
